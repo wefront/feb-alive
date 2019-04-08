@@ -83,6 +83,8 @@ export default (keyName, maxPage) => {
         if (from.matched[depth] === to.matched[depth] && (from.matched.slice(-1)[0] !== to.matched.slice(-1)[0])) {
           // 嵌套路由跳转 && 父级路由
           // /home/a --> /home/b
+          // 针对home组件，无需主动设置componentInstance
+          // /home/a --> /home/b 时，home组件不应该重新实例化。直接进行key设置复用即可
           // 父路由通过key进行复用
           cache[key] = cache[key] || this.keys[this.keys.length - 1]
           cacheVnode = getCacheVnode(cache, cache[key])
@@ -105,6 +107,7 @@ export default (keyName, maxPage) => {
           // 只有相同的vnode才允许复用组件实例，否则虽然实例复用了，但是在patch的最后阶段，会将复用的dom删除
           if (cacheVnode && vnode.tag === cacheVnode.tag) {
             // 从普通路由后退到嵌套路由时，才需要复原key
+            // /about -> /home/a
             vnode.key = cacheVnode.key
             vnode.componentInstance = cacheVnode.componentInstance
             remove(keys, key)
