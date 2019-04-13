@@ -1,6 +1,6 @@
 ### feb-alive
 #### vue 页面级缓存解决方案
-demo: [查看示例](http://demo.hgaoke.com/wyalive)
+demo: [查看示例](http://demo.hgaoke.com/febalive)
 
 ```安装
 npm i feb-alive -S
