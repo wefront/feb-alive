@@ -5,8 +5,8 @@
     <p class="page-action">
       <button class="page-action--item" @click="count += 1">增加</button>
     </p>
-    <p>
-      <router-link to="/parent/bar">前往bar页面</router-link>
+    <p class="page-link">
+      <router-link to="/parent/bar">前往/parent/bar页面</router-link>
     </p>
   </div>
 </template>
@@ -30,8 +30,9 @@ p {
   text-align: center;
 }
 .page-action {
-  position: fixed;
-  bottom: 100px;
+  margin-top: 30px;
+  /* position: fixed;
+  bottom: 100px; */
   width: 100%;
   text-align: center;
 }
@@ -44,5 +45,9 @@ p {
   background: #3f86ff;
   border: none;
   border-radius: 5px;
+  outline: none;
+}
+.page-link {
+  margin-top: 50px;
 }
 </style>

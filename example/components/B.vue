@@ -5,7 +5,7 @@
     <p class="page-action">
       <button class="page-action--item" @click="count += 1">增加</button>
     </p>
-    <p>
+    <p class="page-link">
       <router-link to="/a">前往A页面</router-link>
     </p>
   </div>
@@ -29,8 +29,9 @@ p {
   text-align: center;
 }
 .page-action {
-  position: fixed;
-  bottom: 100px;
+  /* position: fixed;
+  bottom: 100px; */
+  margin-top: 30px;
   width: 100%;
   text-align: center;
 }
@@ -43,5 +44,9 @@ p {
   background: #3f86ff;
   border: none;
   border-radius: 5px;
+  outline: none;
+}
+.page-link {
+  margin-top: 50px;
 }
 </style>

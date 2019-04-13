@@ -1,16 +1,22 @@
 <template>
   <div class="page">
-    <div class="loader" v-show="loading"></div>
-    <ul class="page-list" v-show="!loading">
-      <li class="page-item"
-          v-for="(item, index) in list"
-          :key="index"
-          @click="hasRead(item, index)">
-          {{item.content}}<span class="page-item--read" v-if="item.hasRead">✅</span>
-      </li>
-    </ul>
+    <div class="page-content">
+      <div class="loader"
+           v-show="loading"></div>
+      <ul class="page-list"
+          v-show="!loading">
+        <li class="page-item"
+            v-for="(item, index) in list"
+            :key="index"
+            @click="hasRead(item, index)">
+          {{item.content}}<span class="page-item--read"
+                v-if="item.hasRead">✅</span>
+        </li>
+      </ul>
+    </div>
     <p class="page-action">
-      <button class="page-action--item" @click="nextPage">下一页</button>
+      <button class="page-action--item"
+              @click="nextPage">下一页</button>
     </p>
   </div>
 </template>
@@ -63,7 +69,18 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.page-content {
+  flex: 1;
+}
+.page-action {
+  flex: 0 0 auto;
+}
 .page-item {
   position: relative;
   width: 100%;
@@ -83,9 +100,11 @@ export default {
   color: #6dbe41;
 }
 .page-action {
-  position: fixed;
-  bottom: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
+  height: 100px;
   text-align: center;
 }
 .page-action--item {
@@ -97,6 +116,7 @@ export default {
   background: #3f86ff;
   border: none;
   border-radius: 5px;
+  outline: none;
 }
 
 .loader {
@@ -105,8 +125,9 @@ export default {
   height: 2.5em;
   transform: rotate(165deg);
 }
-.loader:before, .loader:after {
-  content: '';
+.loader:before,
+.loader:after {
+  content: "";
   position: absolute;
   top: 50%;
   left: 50%;
@@ -126,43 +147,44 @@ export default {
 @keyframes before {
   0% {
     width: 0.5em;
-    box-shadow: 1em -0.5em rgba(225, 20, 98, 0.75), -1em 0.5em rgba(111, 202, 220, 0.75);
+    box-shadow: 1em -0.5em rgba(225, 20, 98, 0.75),
+      -1em 0.5em rgba(111, 202, 220, 0.75);
   }
   35% {
     width: 2.5em;
-    box-shadow: 0 -0.5em rgba(225, 20, 98, 0.75), 0 0.5em rgba(111, 202, 220, 0.75);
+    box-shadow: 0 -0.5em rgba(225, 20, 98, 0.75),
+      0 0.5em rgba(111, 202, 220, 0.75);
   }
   70% {
     width: 0.5em;
-    box-shadow: -1em -0.5em rgba(225, 20, 98, 0.75), 1em 0.5em rgba(111, 202, 220, 0.75);
+    box-shadow: -1em -0.5em rgba(225, 20, 98, 0.75),
+      1em 0.5em rgba(111, 202, 220, 0.75);
   }
   100% {
-    box-shadow: 1em -0.5em rgba(225, 20, 98, 0.75), -1em 0.5em rgba(111, 202, 220, 0.75);
+    box-shadow: 1em -0.5em rgba(225, 20, 98, 0.75),
+      -1em 0.5em rgba(111, 202, 220, 0.75);
   }
 }
 @keyframes after {
   0% {
     height: 0.5em;
-    box-shadow: 0.5em 1em rgba(61, 184, 143, 0.75), -0.5em -1em rgba(233, 169, 32, 0.75);
+    box-shadow: 0.5em 1em rgba(61, 184, 143, 0.75),
+      -0.5em -1em rgba(233, 169, 32, 0.75);
   }
   35% {
     height: 2.5em;
-    box-shadow: 0.5em 0 rgba(61, 184, 143, 0.75), -0.5em 0 rgba(233, 169, 32, 0.75);
+    box-shadow: 0.5em 0 rgba(61, 184, 143, 0.75),
+      -0.5em 0 rgba(233, 169, 32, 0.75);
   }
   70% {
     height: 0.5em;
-    box-shadow: 0.5em -1em rgba(61, 184, 143, 0.75), -0.5em 1em rgba(233, 169, 32, 0.75);
+    box-shadow: 0.5em -1em rgba(61, 184, 143, 0.75),
+      -0.5em 1em rgba(233, 169, 32, 0.75);
   }
   100% {
-    box-shadow: 0.5em 1em rgba(61, 184, 143, 0.75), -0.5em -1em rgba(233, 169, 32, 0.75);
+    box-shadow: 0.5em 1em rgba(61, 184, 143, 0.75),
+      -0.5em -1em rgba(233, 169, 32, 0.75);
   }
-}
-/**
- * Attempt to center the whole thing!
- */
-html,
-body {
-  height: 100%;
 }
 
 .loader {
@@ -170,6 +192,4 @@ body {
   top: calc(50% - 1.25em);
   left: calc(50% - 1.25em);
 }
-
 </style>
-

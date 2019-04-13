@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="app">
     <feb-alive>
     <!-- <keep-alive> -->
       <router-view></router-view>
@@ -14,6 +14,9 @@
   box-sizing: border-box;
 }
 html, body {
-  height: 100vh;
+  height: 100%;
+}
+#app {
+  height: 100%;
 }
 </style>
