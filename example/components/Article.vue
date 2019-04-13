@@ -1,3 +1,8 @@
 <template>
-  <dir>article</dir>
+  <div>article</div>
 </template>
+<script>
+export default {
+  name: 'artical'
+}
+</script>

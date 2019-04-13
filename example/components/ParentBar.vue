@@ -13,6 +13,7 @@
 
 <script>
 export default {
+  name: 'ParentBar',
   data () {
     return {
       count: 0

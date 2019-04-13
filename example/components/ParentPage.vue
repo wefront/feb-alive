@@ -18,7 +18,7 @@
 <script>
 import api from '../api/index'
 export default {
-  name: 'page',
+  name: 'parentPage',
   data () {
     return {
       list: [],
@@ -27,7 +27,7 @@ export default {
     }
   },
   mounted () {
-    console.log(~~this.$route.params.id)
+    // console.log(~~this.$route.params.id)
     this.getList()
   },
   activated () {

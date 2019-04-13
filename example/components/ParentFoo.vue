@@ -13,6 +13,7 @@
 
 <script>
 export default {
+  name: 'ParentFoo',
   data () {
     return {
       count: 0

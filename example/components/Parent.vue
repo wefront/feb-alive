@@ -11,10 +11,17 @@
 
 <script>
 export default {
+  name: 'parent',
   data () {
     return {
       count: 0
     }
+  },
+  deactivated () {
+    console.log('parent deactivated')
+  },
+  destroyed () {
+    console.log('parent destroyed')
   }
 }
 </script>

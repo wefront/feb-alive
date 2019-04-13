@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import febAlive from '../src/index'
 
-Vue.use(febAlive, { router })
+Vue.use(febAlive, { router, keyName: 'feb' })
 
 Vue.config.productionTip = false
 
