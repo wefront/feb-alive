@@ -63,7 +63,7 @@ export default (keyName, maxPage) => {
         const { from, to } = this.$router.febRecord
         let parent = this.$parent
         let depth = 0
-        let cacheVnode = Object.create(null)
+        let cacheVnode = null
         vnode && (vnode.data.febAlive = true)
         while (parent && parent._routerRoot !== parent) {
           if (parent.$vnode && parent.$vnode.data.febAlive) {
@@ -80,6 +80,9 @@ export default (keyName, maxPage) => {
         if (to.matched.length < depth + 1) {
           return null
         }
+
+        vnode.key = `__febAlive-${key}-${vnode.tag}`
+
         // /home/page/1 --> /home/page/2
         if (from.matched[depth] === to.matched[depth] && depth !== to.matched.length - 1) {
           // 嵌套路由跳转 && 父级路由
@@ -88,6 +91,7 @@ export default (keyName, maxPage) => {
           // /home/a --> /home/b 时，home组件不应该重新实例化。直接进行key设置复用即可
           // 父路由通过key进行复用
           cache[key] = cache[key] || this.keys[this.keys.length - 1]
+
           cacheVnode = getCacheVnode(cache, cache[key])
           if (cacheVnode) {
             vnode.key = cacheVnode.key
@@ -103,7 +107,6 @@ export default (keyName, maxPage) => {
           // 正常跳转 && 动态路由跳转
           // /a --> /b
           // /page/1 --> /page/2
-          vnode.key = `__febAlive-${key}-${vnode.tag}`
           cacheVnode = getCacheVnode(cache, key)
           // 只有相同的vnode才允许复用组件实例，否则虽然实例复用了，但是在patch的最后阶段，会将复用的dom删除
           if (cacheVnode && vnode.tag === cacheVnode.tag) {
