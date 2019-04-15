@@ -46,8 +46,10 @@ export default (bus, keyName) => {
       return
     }
 
-    // 1. 当使用默认的history.key时，如果route配置中没有设置scrollBehavior，那么首次取到的就是空值
-    // 2. 其他情况下首次都为空，需要主动设置，否则在cacheClear时，会把首次渲染的页面缓存删除
+    /**
+     * 1. 当使用默认的history.key时，如果route配置中没有设置scrollBehavior，那么首次取到的就是空值
+     * 2. 其他情况下首次都为空，需要主动设置，否则在cacheClear时，会把首次渲染的页面缓存删除
+     */
     let name = history.state[keyName]
     if (!name) {
       // 首次渲染进入当前逻辑

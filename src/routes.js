@@ -1,5 +1,6 @@
 /**
- * 记录浏览历史
+ * 记录浏览操作历史栈
+ * record history stack
  */
 
 const inBrowser = typeof window !== 'undefined'

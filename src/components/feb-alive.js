@@ -8,7 +8,6 @@ export default (keyName, maxPage) => {
     abstract: true,
     methods: {
       cacheClear () {
-        // 判断index 删除老的
         if (maxPage && this.keys.length > parseInt(maxPage)) {
           const oldKey = this.keys[0]
           const oldVnode = this.cache[oldKey]
@@ -31,15 +30,19 @@ export default (keyName, maxPage) => {
       this.cache = Object.create(null)
       this.keys = []
     },
+
     // 当路由变化时候，会触发feb-alive的$fourceUpdate
     render () {
+
       // 取到router-view的vnode
       const vnode = this.$slots.default ? this.$slots.default[0] : null
       const disableCache = this.$route.meta.disableCache
+  
       // 如果不支持html5 history 写操作则不做缓存处理
       if (!supportHistoryState) {
         return vnode
       }
+
       // 尝试写入key
       if (!history.state || !history.state[keyName]) {
         const state = {
@@ -48,14 +51,17 @@ export default (keyName, maxPage) => {
         const path = getLocation()
         history.replaceState(state, null, path)
       }
+
       // 有些浏览器不支持往state中写入数据
       if (!history.state) {
         return vnode
       }
+
       // 指定不使用缓存
       if (disableCache) {
         return vnode
       }
+
       // 核心逻辑
       if (vnode) {
         const { cache, keys } = this
@@ -75,21 +81,24 @@ export default (keyName, maxPage) => {
         // 记录缓存及其所在层级
         febCache[depth] = cache
 
-        // /home/a backTo /other
-        // 内层feb-alive实例会被保存，防止从/home/a 跳转到 /other的时候内层feb-alive执行render时候，多生成一个实例
+        /**
+         * 内层feb-alive实例会被保存，防止从/home/a 跳转到 /other的时候内层feb-alive执行render时候，多生成一个实例
+         * 例如 /home/a backTo /other
+         */
         if (to.matched.length < depth + 1) {
           return null
         }
 
         vnode.key = `__febAlive-${key}-${vnode.tag}`
 
-        // /home/page/1 --> /home/page/2
         if (from.matched[depth] === to.matched[depth] && depth !== to.matched.length - 1) {
-          // 嵌套路由跳转 && 父级路由
-          // /home/a --> /home/b
-          // 针对home组件，无需主动设置componentInstance
-          // /home/a --> /home/b 时，home组件不应该重新实例化。直接进行key设置复用即可
-          // 父路由通过key进行复用
+          /**
+           * 1.嵌套路由跳转中的父级路由
+           * 2./home/a --> /home/b
+           * 3.针对home组件，无需主动设置componentInstance
+           * 4./home/a --> /home/b 时，home组件不应该重新实例化。直接进行key设置复用即可
+           * 5.父路由通过key进行复用
+           */
           cache[key] = cache[key] || this.keys[this.keys.length - 1]
 
           cacheVnode = getCacheVnode(cache, cache[key])
@@ -103,10 +112,12 @@ export default (keyName, maxPage) => {
             keys.push(key)
           }
         } else {
-          // 嵌套路由跳转 && 子路由
-          // 正常跳转 && 动态路由跳转
-          // /a --> /b
-          // /page/1 --> /page/2
+          /**
+           * 1.嵌套路由跳转 && 子路由
+           * 2.正常跳转 && 动态路由跳转
+           * 3./a --> /b
+           * 4./page/1 --> /page/2
+           */
           cacheVnode = getCacheVnode(cache, key)
           // 只有相同的vnode才允许复用组件实例，否则虽然实例复用了，但是在patch的最后阶段，会将复用的dom删除
           if (cacheVnode && vnode.tag === cacheVnode.tag) {

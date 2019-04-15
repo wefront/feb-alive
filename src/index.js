@@ -24,9 +24,10 @@ export default {
 
     window.debug_metaMap = metaMap
 
-    // 缓存路由初始meta
     const routes = router.options.routes
 
+    // 记录路由初始meta
+    // record default route.meta
     defineRouteMeta(routes)
 
     const bus = new Vue()
@@ -43,16 +44,20 @@ export default {
     const ensureURL = router.history.ensureURL
     router.history.ensureURL = function () {
       ensureURL.apply(this, arguments)
+
+      // 恢复meta缓存
       // recover to.meta
       const from = router.febRecord.from
       const to = router.febRecord.to
       Vue.location.recoverMeta(from, to)
-      // do record
+  
       navigator.record(to, from, replaceFlag)
       replaceFlag = false
     }
 
     router.beforeEach((to, from, next) => {
+
+      // 重置meta
       // reset to.meta
       Object.assign(to.meta, to.meta._default)
       router.febRecord = {
@@ -63,7 +68,8 @@ export default {
       next()
     })
 
-    // 只有客户端才有的方法
+    // 浏览器端持有
+    // only in browser
     Vue.location = Vue.prototype.$location = {
       to: (url, native = false) => {
         try {
@@ -124,7 +130,7 @@ export default {
             }
           })
         } catch (err) {
-          console.log(err)
+          console.error(err)
         }
       },
       go (n) {
@@ -136,25 +142,30 @@ export default {
       forward () {
         router.forward()
       },
+
       // 恢复缓存，确保在导航切换后执行
+      // recover cache after url has change
       recoverMeta (from, to) {
         const isSamePage = from.path === to.path
         const fromMeta = from.meta
         const toMeta = to.meta
         const key = history.state[keyName]
         const isReplace = router.febRecord.replaceFlag
+
         // 缓存上一页面meta配置
+        // cache last page's meta
         if (!fromMeta.disableCache && lastKey) {
           metaMap[lastKey] = deepClone(fromMeta)
         }
         lastKey = key
+
         // 匹配meta缓存
+        // apply matched meta cache
         toMeta.fromCache = false
         if (!isReplace || (isReplace && isSamePage)) {
           if (metaMap[key]) {
             Object.assign(toMeta, metaMap[key])
             toMeta.fromCache = true
-
           }
         }
         return toMeta

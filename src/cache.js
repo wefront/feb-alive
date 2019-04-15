@@ -1,5 +1,6 @@
 /**
- * 记录feb-alive中的缓存列表
+ * 记录页面缓存
+ * record page cache
  */
 
 const inBrowser = typeof window !== 'undefined'
