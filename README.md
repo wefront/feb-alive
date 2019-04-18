@@ -15,7 +15,7 @@ or
 ```
 `浏览器端可以使用变量window.$febAlive访问包对象`
 
-使用方式
+>使用方式
 ```
 import febAlive from 'feb-alive'
 import Router from 'vue-router'
