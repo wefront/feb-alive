@@ -1,8 +1,5 @@
-(function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-	typeof define === 'function' && define.amd ? define(factory) :
-	(global = global || self, global.$febAlive = factory());
-}(this, function () { 'use strict';
+var $febAlive = (function () {
+	'use strict';
 
 	function createCommonjsModule(fn, module) {
 		return module = { exports: {} }, fn(module, module.exports), module.exports;
@@ -2094,4 +2091,4 @@
 
 	return index;
 
-}));
+}());
