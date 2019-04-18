@@ -2,7 +2,7 @@
 #### vue 页面级缓存解决方案
 demo: [查看示例](http://demo.hgaoke.com/febalive)
 
-安装
+> 安装
 ```
 npm i feb-alive -S
 ```
@@ -12,7 +12,7 @@ or
 ```html
 <script src="./dist/feb-alive.browser.js"></script>
 ```
-浏览器端可以使用变量window.$febAlive访问包对象
+`浏览器端可以使用变量window.$febAlive访问包对象`
 
 使用方式
 ```
