@@ -1,4 +1,3 @@
-import api from './api'
 import { sleep } from '../utils'
 
 export const getJoke = function ({ page = 1, pagesize = 10}) {
