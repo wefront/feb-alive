@@ -1,4 +1,7 @@
 # feb-alive
+![](https://img.shields.io/npm/l/feb-alive.svg)
+![](https://img.shields.io/npm/v/feb-alive.svg?label=version)
+![](https://img.shields.io/bundlephobia/minzip/feb-alive.svg)
 
 ## vue 页面级缓存解决方案
 
