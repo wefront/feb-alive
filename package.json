@@ -11,7 +11,8 @@
     "build": "node build/build.js",
     "build:webpack": "cross-env NODE_ENV=production webpack --progress --hide-modules --config ./webpack.config.js",
     "build:example": "cross-env NODE_ENV=production webpack --progress --hide-modules --config ./webpack.example.config.js",
-    "test": "mocha --require @babel/register 'test/**/*.js'"
+    "test": "mocha --require @babel/register 'test/**/*.js'",
+    "cover": "nyc --reporter=html mocha --require @babel/register 'test/**/*.js'"
   },
   "dependencies": {
     "@babel/runtime-corejs2": "^7.4.3"
@@ -25,12 +26,14 @@
     "@babel/core": "^7.4.0",
     "@babel/plugin-transform-runtime": "^7.4.3",
     "@babel/preset-env": "^7.4.2",
+    "@babel/register": "^7.4.4",
     "babel-loader": "^8.0.5",
     "cross-env": "^5.0.5",
     "css-loader": "^0.28.7",
     "file-loader": "^1.1.4",
     "html-webpack-plugin": "^4.0.0-beta.3",
     "mocha": "^6.0.2",
+    "nyc": "^14.1.1",
     "power-assert": "^1.6.1",
     "rollup": "^1.10.0",
     "rollup-plugin-babel": "^4.3.2",
