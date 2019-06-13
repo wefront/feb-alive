@@ -1,7 +1,7 @@
 {
   "name": "feb-alive",
   "description": "A Vue.js plugins",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "author": "hangaoke <188869009@qq.com>",
   "license": "MIT",
   "main": "./dist/feb-alive.js",
