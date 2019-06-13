@@ -58,9 +58,9 @@ export default (keyName, maxPage) => {
       }
 
       // 指定不使用缓存
-      if (disableCache) {
-        return vnode
-      }
+      // if (disableCache) {
+      //   return vnode
+      // }
 
       // 核心逻辑
       if (vnode) {
@@ -80,6 +80,11 @@ export default (keyName, maxPage) => {
 
         // 记录缓存及其所在层级
         febCache[depth] = cache
+
+        // 底层路由才进行cache判断
+        if (disableCache && to.matched.length === depth + 1) {
+          return vnode;
+        } 
 
         /**
          * 内层feb-alive实例会被保存，防止从/home/a 跳转到 /other的时候内层feb-alive执行render时候，多生成一个实例
