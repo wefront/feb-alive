@@ -7,6 +7,7 @@
     </p>
     <p class="page-link">
       <router-link to="/a">前往A页面</router-link>
+      <!-- <div @click="goA">前往A页面</div> -->
     </p>
   </div>
 </template>
@@ -16,6 +17,11 @@ export default {
   data () {
     return {
       count: 0
+    }
+  },
+  methods: {
+    goA () {
+      this.$router.replace('/a')
     }
   }
 }

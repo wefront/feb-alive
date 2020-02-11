@@ -7,7 +7,11 @@ export default (keyName, maxPage) => {
     name: 'feb-alive',
     abstract: true,
     methods: {
-      cacheClear () {
+      cacheClear (key) {
+        // Fix: replace情况下 key未变化，导致实例未被销毁
+        const vnode = this.cache[key]
+        vnode && vnode.componentInstance && vnode.componentInstance.$destroy()
+
         if (maxPage && this.keys.length > parseInt(maxPage)) {
           const oldKey = this.keys[0]
           const oldVnode = this.cache[oldKey]
@@ -112,7 +116,7 @@ export default (keyName, maxPage) => {
             remove(keys, key)
             keys.push(key)
           } else {
-            this.cacheClear()
+            this.cacheClear(key)
             cache[key] = vnode
             keys.push(key)
           }
@@ -131,7 +135,7 @@ export default (keyName, maxPage) => {
             remove(keys, key)
             keys.push(key)
           } else {
-            this.cacheClear()
+            this.cacheClear(key)
             cache[key] = vnode
             keys.push(key)
           }
