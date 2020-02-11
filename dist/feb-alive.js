@@ -1611,7 +1611,11 @@
 	    name: 'feb-alive',
 	    abstract: true,
 	    methods: {
-	      cacheClear: function cacheClear() {
+	      cacheClear: function cacheClear(key) {
+	        // Fix: replace情况下 key未变化，导致实例未被销毁
+	        var vnode = this.cache[key];
+	        vnode && vnode.componentInstance && vnode.componentInstance.$destroy();
+
 	        if (maxPage && this.keys.length > _parseInt$2(maxPage)) {
 	          var oldKey = this.keys[0];
 	          var oldVnode = this.cache[oldKey];
@@ -1620,12 +1624,12 @@
 	          delete this.cache[oldKey];
 	        }
 
-	        for (var key in this.cache) {
-	          if (!matches(routes, key)) {
-	            var vnode = this.cache[key];
-	            vnode && vnode.componentInstance && vnode.componentInstance.$destroy();
-	            remove(this.keys, key);
-	            delete this.cache[key];
+	        for (var _key in this.cache) {
+	          if (!matches(routes, _key)) {
+	            var _vnode = this.cache[_key];
+	            _vnode && _vnode.componentInstance && _vnode.componentInstance.$destroy();
+	            remove(this.keys, _key);
+	            delete this.cache[_key];
 	          }
 	        }
 	      }
@@ -1716,7 +1720,7 @@
 	            remove(keys, key);
 	            keys.push(key);
 	          } else {
-	            this.cacheClear();
+	            this.cacheClear(key);
 	            cache$1[key] = vnode;
 	            keys.push(key);
 	          }
@@ -1735,7 +1739,7 @@
 	            remove(keys, key);
 	            keys.push(key);
 	          } else {
-	            this.cacheClear();
+	            this.cacheClear(key);
 	            cache$1[key] = vnode;
 	            keys.push(key);
 	          }
