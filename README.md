@@ -5,7 +5,7 @@
 
 ## vue 页面级缓存解决方案
 
-demo: [查看示例](http://demo.hgaoke.com/febalive)
+demo: [查看示例](http://101.132.119.190:9090/febalive)
 
 > 安装
 ### NPM
