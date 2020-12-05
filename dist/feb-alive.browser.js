@@ -1971,7 +1971,7 @@ var $febAlive = (function () {
 	            return;
 	          }
 
-	          beforeLocationChange(route, function (state) {
+	          beforeLocationChange(matchRoute, function (state) {
 	            if (state === false) {
 	              window.location.href = url;
 	            } else {
@@ -2010,7 +2010,7 @@ var $febAlive = (function () {
 	            return;
 	          }
 
-	          beforeLocationChange(route, function (state) {
+	          beforeLocationChange(matchRoute, function (state) {
 	            if (state === false) {
 	              window.location.replace(url);
 	            } else {

@@ -91,7 +91,7 @@ export default {
             router.push({ path: url })
             return
           }
-          beforeLocationChange(route, (state) => {
+          beforeLocationChange(matchRoute, (state) => {
             if (state === false) {
               window.location.href = url
             } else {
@@ -122,7 +122,7 @@ export default {
             router.replace({ path: url })
             return
           }
-          beforeLocationChange(route, (state) => {
+          beforeLocationChange(matchRoute, (state) => {
             if (state === false) {
               window.location.replace(url)
             } else {
