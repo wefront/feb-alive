@@ -9,8 +9,8 @@ module.exports = {
   entry: './example/main.js',
   devtool: '#source-map',
   output: {
-    path: path.resolve(__dirname, './dist'),
-    publicPath: isProd ? '/febalive/dist/' : '/dist/',
+    path: path.resolve(__dirname, './demo'),
+    publicPath: '/',
     filename: 'build.js'
   },
   module: {
@@ -66,7 +66,7 @@ if (process.env.NODE_ENV === 'production') {
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.DefinePlugin({
       'process.env': {
-        BASE_URL: '"/febalive/"',
+        BASE_URL: '"/"',
         NODE_ENV: '"production"'
       }
     }),
