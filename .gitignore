@@ -2,7 +2,8 @@
 node_modules/
 # dist/
 npm-debug.log
-yarn-error.log
+package-lock.json
+pnpm-lock.yaml
 
 # Editor directories and files
 .idea

@@ -3,9 +3,9 @@
  * record history stack
  */
 
-const inBrowser = typeof window !== 'undefined'
-let routes = []
+const inBrowser = typeof window !== 'undefined';
+const routes = [];
 if (inBrowser) {
-  window.debug_routes = routes
+  window.debug_routes = routes;
 }
-export default routes
+export default routes;

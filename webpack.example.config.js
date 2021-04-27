@@ -10,7 +10,7 @@ module.exports = {
   devtool: '#source-map',
   output: {
     path: path.resolve(__dirname, './demo'),
-    publicPath: '/',
+    publicPath: '/dist/',
     filename: 'build.js'
   },
   module: {
