@@ -8,6 +8,8 @@
 
 Demo: [查看示例](http://101.132.119.190:9090/febalive)
 
+![](https://hgkcdn.oss-cn-shanghai.aliyuncs.com/image/feb-alive.gif)
+
 > 安装
 ### NPM
 ```
@@ -61,7 +63,7 @@ Vue.use(febAlive, options)
 | router | VueRouter | 路由实例 |
 | keyName | string | 用于缓存页面的主键，default: 'key' |
 | isServer | boolean | 是否是服务端渲染模式，default: false |
-| maxPage | number | 最大缓存页面数量，default: 10 |
+| maxPage | number | 每个feb-alive的缓存最大页数，default: 10 |
 | beforeLocationChange | function | 页面跳转前拦截函数 |
 
 **beforeLocationChange(route, cb)**

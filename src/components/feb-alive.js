@@ -77,6 +77,7 @@ export default (keyName, maxPage) => {
         }
 
         // 记录缓存及其所在层级
+        this.depth = depth;
         febCache[depth] = cache;
 
         // 底层路由才进行cache判断
@@ -142,6 +143,7 @@ export default (keyName, maxPage) => {
       for (const key in this.cache) {
         const vnode = this.cache[key];
         vnode && vnode.componentInstance.$destroy();
+        delete febCache[this.depth][key];
       }
       this.keys = [];
       this.cache = {};

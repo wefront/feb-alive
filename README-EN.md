@@ -8,6 +8,8 @@
 
 Demo: [View example](http://101.132.119.190:9090/febalive)
 
+![](https://hgkcdn.oss-cn-shanghai.aliyuncs.com/image/feb-alive.gif)
+
 > Install
 ### NPM
 ```
@@ -61,7 +63,7 @@ Vue.use(febAlive, options)
 | router | VueRouter | Route instance |
 | keyName | string | Primary key used to cache pages，default: 'key' |
 | isServer | boolean | Whether it is server-side rendering mode，default: false |
-| maxPage | number | Maximum number of cached pages，default: 10 |
+| maxPage | number | Maximum number of cached pages with feb-alive，default: 10 |
 | beforeLocationChange | function | Intercept function before page jump |
 
 **beforeLocationChange(route, cb)**
