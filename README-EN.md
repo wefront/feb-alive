@@ -8,7 +8,7 @@
 
 Demo: [View example](http://101.132.119.190:9090/febalive)
 
-![](https://hgkcdn.oss-cn-shanghai.aliyuncs.com/image/feb-alive.gif)
+![image](https://hgkcdn.oss-cn-shanghai.aliyuncs.com/image/feb-alive.gif)
 
 > Install
 ### NPM
