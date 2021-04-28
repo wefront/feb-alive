@@ -14,17 +14,18 @@
 
 <script>
 export default {
-  data () {
+  name: 'PageB',
+  data() {
     return {
-      count: 0
-    }
+      count: 0,
+    };
   },
   methods: {
-    goA () {
-      this.$router.replace('/a')
-    }
-  }
-}
+    goA() {
+      this.$router.replace('/a');
+    },
+  },
+};
 </script>
 
 <style>

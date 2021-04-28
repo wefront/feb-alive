@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <feb-alive>
-    <!-- <keep-alive> -->
+      <!-- <keep-alive> -->
       <router-view></router-view>
-    <!-- </keep-alive> -->
+      <!-- </keep-alive> -->
     </feb-alive>
   </div>
 </template>
@@ -13,7 +13,8 @@
   padding: 0;
   box-sizing: border-box;
 }
-html, body {
+html,
+body {
   height: 100%;
 }
 #app {

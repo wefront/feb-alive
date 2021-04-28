@@ -13,8 +13,8 @@
 
 <script>
 export default {
-  
-}
+  name: 'PageHome'
+};
 </script>
 <style>
 .home {

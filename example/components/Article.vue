@@ -3,6 +3,6 @@
 </template>
 <script>
 export default {
-  name: 'artical'
-}
+  name: 'Artical',
+};
 </script>

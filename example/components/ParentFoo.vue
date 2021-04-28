@@ -14,12 +14,12 @@
 <script>
 export default {
   name: 'ParentFoo',
-  data () {
+  data() {
     return {
-      count: 0
-    }
-  }
-}
+      count: 0,
+    };
+  },
+};
 </script>
 
 <style>

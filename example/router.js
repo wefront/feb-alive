@@ -1,58 +1,73 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import febAlive from '../src/index'
-import Home from './components/Home.vue'
-import Page from './components/Page.vue'
-import Article from './components/Article.vue'
-import A from './components/A.vue'
-import B from './components/B.vue'
-import Parent from './components/Parent.vue'
-import ParentPage from './components/ParentPage.vue'
-import ParentFoo from './components/ParentFoo.vue'
-import ParentBar from './components/ParentBar.vue'
+import Vue from 'vue';
+import Router from 'vue-router';
+import febAlive from '../src/index';
+import Home from './components/Home.vue';
+import Page from './components/Page.vue';
+import Article from './components/Article.vue';
+import A from './components/A.vue';
+import B from './components/B.vue';
+import Parent from './components/Parent.vue';
+import ParentPage from './components/ParentPage.vue';
+import ParentFoo from './components/ParentFoo.vue';
+import ParentBar from './components/ParentBar.vue';
 
-febAlive.resetHistory()
+febAlive.resetHistory();
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   mode: 'history',
   base: process.env.BASE_URL || '/',
-  scrollBehavior (to, from, savedPosition) {
+  scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
-      return savedPosition
+      return savedPosition;
     } else {
       return {
         x: 0,
-        y: 0
-      }
+        y: 0,
+      };
     }
   },
   routes: [
     {
       path: '/',
       name: 'home',
-      component: Home
+      meta: {
+        title: 'FEB',
+      },
+      component: Home,
     },
     {
       path: '/a',
       name: 'a',
-      component: A
+      meta: {
+        title: '我是A页面',
+      },
+      component: A,
     },
     {
       path: '/b',
       name: 'b',
-      component: B
+      meta: {
+        title: '我是B页面',
+      },
+      component: B,
     },
     {
       path: '/page/:id',
       name: 'page',
-      component: Page
+      meta: {
+        title: '文章列表',
+      },
+      component: Page,
     },
     {
       path: '/article/:id',
       name: 'article',
-      component: Article
+      meta: {
+        title: '文章详情',
+      },
+      component: Article,
     },
     {
       path: '/parent',
@@ -61,17 +76,17 @@ export default new Router({
       children: [
         {
           path: 'page/:id',
-          component: ParentPage
+          component: ParentPage,
         },
         {
           path: 'foo',
-          component: ParentFoo
+          component: ParentFoo,
         },
         {
           path: 'bar',
-          component: ParentBar
-        }
-      ]
-    }
-  ]
-})
+          component: ParentBar,
+        },
+      ],
+    },
+  ],
+});

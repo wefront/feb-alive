@@ -1,5 +1,5 @@
-import * as joke from './joke'
+import * as joke from './joke';
 
 export default {
-  joke
-}
+  joke,
+};

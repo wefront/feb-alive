@@ -1,72 +1,73 @@
 <template>
   <div class="page">
     <div class="page-content">
-      <div class="loader"
-           v-show="loading"></div>
-      <ul class="page-list"
-          v-show="!loading">
-        <li class="page-item"
-            v-for="(item, index) in list"
-            :key="index"
-            @click="hasRead(item, index)">
-          {{item.content}}<span class="page-item--read"
-                v-if="item.hasRead">✅</span>
+      <div class="loader" v-show="loading"></div>
+      <ul class="page-list" v-show="!loading">
+        <li
+          class="page-item"
+          v-for="(item, index) in list"
+          :key="index"
+          @click="hasRead(item, index)"
+        >
+          {{item.content}}
+          <span class="page-item--read" v-if="item.hasRead">✅</span>
         </li>
       </ul>
     </div>
     <p class="page-action">
-      <button class="page-action--item"
-              @click="nextPage">下一页</button>
+      <button class="page-action--item" @click="nextPage">下一页</button>
     </p>
   </div>
 </template>
 
 <script>
-import api from '../api/index'
+import api from '../api/index';
 export default {
-  name: 'page',
-  data () {
+  name: 'ArticalList',
+  data() {
     return {
       list: [],
       currentPage: 1,
-      loading: true
-    }
+      loading: true,
+    };
   },
-  mounted () {
-    console.log(~~this.$route.params.id)
-    this.getList()
+  mounted() {
+    console.log(~~this.$route.params.id);
+    this.getList();
   },
-  activated () {
-    console.log('call activated')
+  activated() {
+    console.log('call activated');
   },
-  destroyed () {
-    console.log('销毁了')
+  destroyed() {
+    console.log('销毁了');
   },
   methods: {
-    hasRead (item, index) {
-      this.$set(item, 'hasRead', true)
-      const page = ~~this.$route.params.id
-      const id = (page - 1) * 10 + index + 1
-      this.$router.push(`/article/${id}`)
+    hasRead(item, index) {
+      this.$set(item, 'hasRead', true);
+      const page = ~~this.$route.params.id;
+      const id = (page - 1) * 10 + index + 1;
+      this.$router.push(`/article/${id}`);
     },
-    getList () {
-      this.loading = true
-      const page = ~~this.$route.params.id
-      this.currentPage = page
-      api.joke.getJoke({
-        page: page,
-        pagesize: 10
-      }).then(data => {
-        this.loading = false
-        // this.list = data.result.data
-        this.list = data
-      })
+    getList() {
+      this.loading = true;
+      const page = ~~this.$route.params.id;
+      this.currentPage = page;
+      api.joke
+        .getJoke({
+          page: page,
+          pagesize: 10,
+        })
+        .then(data => {
+          this.loading = false;
+          // this.list = data.result.data
+          this.list = data;
+        });
     },
-    nextPage () {
-      this.$router.push(`/page/${this.currentPage + 1}`)
-    }
-  }
-}
+    nextPage() {
+      this.$router.push(`/page/${this.currentPage + 1}`);
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -127,7 +128,7 @@ export default {
 }
 .loader:before,
 .loader:after {
-  content: "";
+  content: '';
   position: absolute;
   top: 50%;
   left: 50%;
@@ -147,43 +148,35 @@ export default {
 @keyframes before {
   0% {
     width: 0.5em;
-    box-shadow: 1em -0.5em rgba(225, 20, 98, 0.75),
-      -1em 0.5em rgba(111, 202, 220, 0.75);
+    box-shadow: 1em -0.5em rgba(225, 20, 98, 0.75), -1em 0.5em rgba(111, 202, 220, 0.75);
   }
   35% {
     width: 2.5em;
-    box-shadow: 0 -0.5em rgba(225, 20, 98, 0.75),
-      0 0.5em rgba(111, 202, 220, 0.75);
+    box-shadow: 0 -0.5em rgba(225, 20, 98, 0.75), 0 0.5em rgba(111, 202, 220, 0.75);
   }
   70% {
     width: 0.5em;
-    box-shadow: -1em -0.5em rgba(225, 20, 98, 0.75),
-      1em 0.5em rgba(111, 202, 220, 0.75);
+    box-shadow: -1em -0.5em rgba(225, 20, 98, 0.75), 1em 0.5em rgba(111, 202, 220, 0.75);
   }
   100% {
-    box-shadow: 1em -0.5em rgba(225, 20, 98, 0.75),
-      -1em 0.5em rgba(111, 202, 220, 0.75);
+    box-shadow: 1em -0.5em rgba(225, 20, 98, 0.75), -1em 0.5em rgba(111, 202, 220, 0.75);
   }
 }
 @keyframes after {
   0% {
     height: 0.5em;
-    box-shadow: 0.5em 1em rgba(61, 184, 143, 0.75),
-      -0.5em -1em rgba(233, 169, 32, 0.75);
+    box-shadow: 0.5em 1em rgba(61, 184, 143, 0.75), -0.5em -1em rgba(233, 169, 32, 0.75);
   }
   35% {
     height: 2.5em;
-    box-shadow: 0.5em 0 rgba(61, 184, 143, 0.75),
-      -0.5em 0 rgba(233, 169, 32, 0.75);
+    box-shadow: 0.5em 0 rgba(61, 184, 143, 0.75), -0.5em 0 rgba(233, 169, 32, 0.75);
   }
   70% {
     height: 0.5em;
-    box-shadow: 0.5em -1em rgba(61, 184, 143, 0.75),
-      -0.5em 1em rgba(233, 169, 32, 0.75);
+    box-shadow: 0.5em -1em rgba(61, 184, 143, 0.75), -0.5em 1em rgba(233, 169, 32, 0.75);
   }
   100% {
-    box-shadow: 0.5em 1em rgba(61, 184, 143, 0.75),
-      -0.5em -1em rgba(233, 169, 32, 0.75);
+    box-shadow: 0.5em 1em rgba(61, 184, 143, 0.75), -0.5em -1em rgba(233, 169, 32, 0.75);
   }
 }
 

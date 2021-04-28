@@ -8,7 +8,7 @@ import { defineRouteMeta, deepClone, parseUrl } from './utils';
 const metaMap = Object.create(null);
 let hasReset = false;
 
-export default {
+const FebAlivePlugin = {
   /**
    * 插件安装
    * @param {function} Vue
@@ -58,27 +58,8 @@ export default {
       replace.apply(this, arguments);
     };
 
-    const ensureURL = router.history.ensureURL;
-    router.history.ensureURL = function() {
-      ensureURL.apply(this, arguments);
-
-      /**
-       * 恢复meta缓存
-       * recover to.meta
-       */
-      const from = router.febRecord.from;
-      const to = router.febRecord.to;
-      Vue.location.recoverMeta(from, to);
-
-      navigator.record(to, from, replaceFlag);
-      replaceFlag = false;
-    };
-
     router.beforeEach((to, from, next) => {
-      /**
-       * 重置meta
-       * reset to.meta
-       */
+      // 重置meta
       Object.assign(to.meta, to.meta._default);
       router.febRecord = {
         to,
@@ -88,8 +69,20 @@ export default {
       next();
     });
 
+    /**
+     * tip: vue-router@3.3.0 版本之前不能使用afterEach来处理缓存恢复逻辑，
+     * 因为afterEach钩子执行时，url还没有改变，导致取到的页面key还是上一个
+     * 页面的，会导致缓存存取异常
+     * issue: https://github.com/vuejs/vue-router/pull/2292
+     */
     router.afterEach((to, from) => {
-      console.log('[debug] afterEach', location.href);
+      /**
+       * 恢复meta缓存
+       * recover to.meta
+       */
+      Vue.location.recoverMeta(from, to);
+      navigator.record(to, from, replaceFlag);
+      replaceFlag = false;
     });
 
     /**
@@ -206,28 +199,34 @@ export default {
         const fromMeta = from.meta;
         const toMeta = to.meta;
         const key = history.state[keyName];
-        const isReplace = router.febRecord.replaceFlag;
+        const isReplace = router.febRecord.replaceFlag; // 是否是replace跳转
 
         /**
-         * 缓存上一页面meta配置
-         * cache last page's meta
+         * 保证缓存的meta是页面离开时最后一刻的状态
          */
         if (!fromMeta.disableCache && lastKey) {
           metaMap[lastKey] = deepClone(fromMeta);
         }
+
         lastKey = key;
 
         /**
-         * 匹配meta缓存
-         * apply matched meta cache
+         * 标记当前页面路由meta是否是从缓存中恢复而来
          */
         toMeta.fromCache = false;
+
+        /**
+         * 非replace跳转，或者replace相同路由，需要进行meta缓存匹配逻辑
+         * 场景一: /a ->(push) /b，/b ->(back) /a，需要从缓存中恢复/a的meta数据
+         * 场景二: /a ->(replace) /a，需要从缓存中恢复/a的meta数据
+         */
         if (!isReplace || (isReplace && isSamePage)) {
           if (metaMap[key]) {
             Object.assign(toMeta, metaMap[key]);
             toMeta.fromCache = true;
           }
         }
+
         return toMeta;
       },
 
@@ -299,3 +298,5 @@ export default {
     }
   },
 };
+
+export default FebAlivePlugin;

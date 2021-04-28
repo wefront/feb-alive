@@ -17,19 +17,19 @@
 
 <script>
 export default {
-  name: 'parent',
-  data () {
+  name: 'Parent',
+  data() {
     return {
-      count: 0
-    }
+      count: 0,
+    };
   },
-  deactivated () {
-    console.log('parent deactivated')
+  deactivated() {
+    console.log('parent deactivated');
   },
-  destroyed () {
-    console.log('parent destroyed')
-  }
-}
+  destroyed() {
+    console.log('parent destroyed');
+  },
+};
 </script>
 
 <style scoped>
