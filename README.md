@@ -1,12 +1,16 @@
-# feb-alive
+# feb-alive 页面级缓存解决方案
 ![](https://img.shields.io/npm/l/feb-alive.svg)
 ![](https://img.shields.io/npm/v/feb-alive.svg?label=version)
 ![](https://img.shields.io/bundlephobia/minzip/feb-alive.svg)
 
 [English Document](https://github.com/wefront/feb-alive/blob/master/README-EN.md)
-## Vue 页面级缓存解决方案
 
-Demo: [查看示例](http://101.132.119.190:9090/febalive)
+### 社区文章
+[Vue页面级缓存解决方案feb-alive (上)](https://juejin.cn/post/6844903817830465544)
+
+[Vue页面级缓存解决方案feb-alive (下)](https://juejin.cn/post/6844903817830465550)
+
+demo: [查看示例](http://101.132.119.190:9090/febalive)
 
 ![image](https://raw.githubusercontent.com/wefront/feb-alive/master/example/assets/feb-alive.gif)
 
