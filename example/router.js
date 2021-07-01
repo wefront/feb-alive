@@ -11,6 +11,10 @@ import ParentPage from './components/ParentPage.vue';
 import ParentFoo from './components/ParentFoo.vue';
 import ParentBar from './components/ParentBar.vue';
 
+import TreeAncestor from './components/TreeAncestor.vue';
+import TreeParent from './components/TreeParent.vue';
+import TreeSon from './components/TreeSon.vue';
+
 febAlive.resetHistory();
 
 Vue.use(Router);
@@ -36,6 +40,26 @@ export default new Router({
         title: 'FEB',
       },
       component: Home,
+    },
+    {
+      path: '/tree-ancestor',
+      name: 'tree-ancestor',
+      meta: {},
+      component: TreeAncestor,
+      children: [
+        {
+          path: '/tree-ancestor/tree-parent',
+          name: 'tree-parent',
+          component: TreeParent,
+          children: [
+            {
+              path: '/tree-ancestor/tree-parent/tree-son',
+              name: 'tree-son',
+              component: TreeSon,
+            }
+          ]
+        },
+      ]
     },
     {
       path: '/a',

@@ -2529,7 +2529,7 @@ var $febAlive = (function () {
 
 	        vnode.key = concat(_context = "__febAlive-".concat(key, "-")).call(_context, vnode.tag);
 
-	        if (from.matched[depth] === to.matched[depth] && depth !== to.matched.length - 1) {
+	        if (from.matched[depth] === to.matched[depth] && depth !== to.matched.length - 1 && to.matched.length <= from.matched.length) {
 	          /**
 	           * 1.嵌套路由跳转中的父级路由
 	           * 2./home/a --> /home/b
