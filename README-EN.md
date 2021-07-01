@@ -6,7 +6,7 @@
 [中文说明](https://github.com/wefront/feb-alive/blob/master/README.md)
 ## Vue Page level caching solution
 
-Demo: [View example](http://101.132.119.190:9090/febalive)
+Demo: [View example](https://hangaoke1.github.io/feb-alive/)
 
 ![image](https://raw.githubusercontent.com/wefront/feb-alive/master/example/assets/feb-alive.gif)
 

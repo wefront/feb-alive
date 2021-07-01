@@ -67,7 +67,7 @@ if (isProd) {
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.DefinePlugin({
       'process.env': {
-        BASE_URL: '"/"',
+        BASE_URL: '"/feb-alive/"',
         NODE_ENV: '"production"'
       }
     }),

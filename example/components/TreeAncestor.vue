@@ -27,6 +27,7 @@ export default {
 
 <style scoped>
 .page-ancestor {
+  padding: 20px;
   text-align: center;
 }
 .action {

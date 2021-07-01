@@ -26,8 +26,9 @@ export default {
 
 <style scoped>
 .page-parent {
+  margin-top: 20px;
   padding: 20px;
-  border: 1px solid red;
+  border: 4px solid #eb2f96;
 }
 .action {
   margin-right: 5px;

@@ -23,7 +23,9 @@ export default {
 
 <style scoped>
 .page-son {
-  border: 1px solid yellow;
+  padding: 20px;
+  margin-top: 20px;
+  border: 4px solid #1890ff;
 }
 .action {
   margin-right: 5px;

@@ -10,7 +10,7 @@
 
 [Vue页面级缓存解决方案feb-alive (下)](https://juejin.cn/post/6844903817830465550)
 
-demo: [查看示例](http://101.132.119.190:9090/febalive)
+demo: [查看示例](https://hangaoke1.github.io/feb-alive/)
 
 ![image](https://raw.githubusercontent.com/wefront/feb-alive/master/example/assets/feb-alive.gif)
 
