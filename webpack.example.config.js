@@ -5,12 +5,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const isProd = process.env.NODE_ENV === 'production'
 
 module.exports = {
+  context: path.resolve(__dirname, './'),
   mode: isProd ? 'production' : 'development',
   entry: './example/main.js',
   devtool: '#source-map',
   output: {
     path: path.resolve(__dirname, './demo'),
-    publicPath: '/dist/',
+    publicPath: isProd ? '/feb-alive/' : '/',
     filename: 'build.js'
   },
   module: {
@@ -57,11 +58,11 @@ module.exports = {
     hints: false
   },
   plugins: [
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
   ]
 }
 
-if (process.env.NODE_ENV === 'production') {
+if (isProd) {
   // http://vue-loader.vuejs.org/en/workflow/production.html
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.DefinePlugin({
@@ -74,8 +75,17 @@ if (process.env.NODE_ENV === 'production') {
       minimize: true
     }),
     new HtmlWebpackPlugin({
-      template: 'index.temp.html',
-      filename: 'index.html'
+      hash: true,
+      inject: true,
+      filename: 'index.html',
+      template: 'index.html',
+    })
+  ])
+} else {
+  module.exports.plugins = (module.exports.plugins || []).concat([
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: 'index.html',
     })
   ])
 }
