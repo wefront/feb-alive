@@ -77,6 +77,12 @@ if (isProd) {
     new HtmlWebpackPlugin({
       hash: true,
       inject: true,
+      filename: '404.html',
+      template: 'index.html',
+    }),
+    new HtmlWebpackPlugin({
+      hash: true,
+      inject: true,
       filename: 'index.html',
       template: 'index.html',
     })
