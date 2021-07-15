@@ -327,6 +327,11 @@ var FebAlive = (function (keyName, maxPage) {
         }
       }
     },
+    data: function data() {
+      return {
+        cache: {}
+      };
+    },
     created: function created() {
       this.cache = Object.create(null);
       this.keys = [];
@@ -369,10 +374,15 @@ var FebAlive = (function (keyName, maxPage) {
         var depth = 0;
         var cacheVnode = null;
         vnode && (vnode.data.febAlive = true);
+        var inactive = false;
 
         while (parent && parent._routerRoot !== parent) {
           if (parent.$vnode && parent.$vnode.data.febAlive) {
             depth++;
+          }
+
+          if (parent._directInactive && parent._inactive) {
+            inactive = true;
           }
 
           parent = parent.$parent;
@@ -380,7 +390,12 @@ var FebAlive = (function (keyName, maxPage) {
 
 
         this.depth = depth;
-        cache[depth] = cache$1; // 底层路由才进行cache判断
+        cache[depth] = cache$1;
+
+        if (inactive) {
+          return null;
+        } // 底层路由才进行cache判断
+
 
         if (disableCache && to.matched.length === depth + 1) {
           return vnode;
@@ -446,7 +461,7 @@ var FebAlive = (function (keyName, maxPage) {
     destroyed: function destroyed() {
       for (var key in this.cache) {
         var vnode = this.cache[key];
-        vnode && vnode.componentInstance.$destroy();
+        vnode && vnode.componentInstance && vnode.componentInstance.$destroy();
         delete cache[this.depth][key];
       }
 

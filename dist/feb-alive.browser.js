@@ -121,7 +121,7 @@ var $febAlive = (function () {
 
 	var hasOwnProperty = {}.hasOwnProperty;
 
-	var has$1 = function hasOwn(it, key) {
+	var has$1 = Object.hasOwn || function hasOwn(it, key) {
 	  return hasOwnProperty.call(toObject(it), key);
 	};
 
@@ -530,7 +530,7 @@ var $febAlive = (function () {
 	(module.exports = function (key, value) {
 	  return sharedStore[key] || (sharedStore[key] = value !== undefined ? value : {});
 	})('versions', []).push({
-	  version: '3.11.0',
+	  version: '3.15.2',
 	  mode: 'pure' ,
 	  copyright: '© 2021 Denis Pushkarev (zloirock.ru)'
 	});
@@ -542,8 +542,6 @@ var $febAlive = (function () {
 	var uid = function (key) {
 	  return 'Symbol(' + String(key === undefined ? '' : key) + ')_' + (++id + postfix).toString(36);
 	};
-
-	var engineIsNode = classofRaw(global$1.process) == 'process';
 
 	var aFunction = function (variable) {
 	  return typeof variable == 'function' ? variable : undefined;
@@ -563,7 +561,7 @@ var $febAlive = (function () {
 
 	if (v8) {
 	  match = v8.split('.');
-	  version = match[0] + match[1];
+	  version = match[0] < 4 ? 1 : match[0] + match[1];
 	} else if (engineUserAgent) {
 	  match = engineUserAgent.match(/Edge\/(\d+)/);
 	  if (!match || match[1] >= 74) {
@@ -574,13 +572,16 @@ var $febAlive = (function () {
 
 	var engineV8Version = version && +version;
 
+	/* eslint-disable es/no-symbol -- required for testing */
+
 	// eslint-disable-next-line es/no-object-getownpropertysymbols -- required for testing
 	var nativeSymbol = !!Object.getOwnPropertySymbols && !fails(function () {
-	  // eslint-disable-next-line es/no-symbol -- required for testing
-	  return !Symbol.sham &&
-	    // Chrome 38 Symbol has incorrect toString conversion
+	  var symbol = Symbol();
+	  // Chrome 38 Symbol has incorrect toString conversion
+	  // `get-own-property-symbols` polyfill symbols converted to object are not Symbol instances
+	  return !String(symbol) || !(Object(symbol) instanceof Symbol) ||
 	    // Chrome 38-40 symbols are not inherited from DOM collections prototypes to instances
-	    (engineIsNode ? engineV8Version === 38 : engineV8Version > 37 && engineV8Version < 41);
+	    !Symbol.sham && engineV8Version && engineV8Version < 41;
 	});
 
 	/* eslint-disable es/no-symbol -- required for testing */
@@ -712,7 +713,7 @@ var $febAlive = (function () {
 
 	var functionToString = Function.toString;
 
-	// this helper broken in `3.4.1-3.4.4`, so we can't use `shared` helper
+	// this helper broken in `core-js@3.4.1-3.4.4`, so we can't use `shared` helper
 	if (typeof sharedStore.inspectSource != 'function') {
 	  sharedStore.inspectSource = function (it) {
 	    return functionToString.call(it);
@@ -748,7 +749,7 @@ var $febAlive = (function () {
 	  };
 	};
 
-	if (nativeWeakMap) {
+	if (nativeWeakMap || sharedStore.state) {
 	  var store = sharedStore.state || (sharedStore.state = new WeakMap());
 	  var wmget = store.get;
 	  var wmhas = store.has;
@@ -839,7 +840,8 @@ var $febAlive = (function () {
 
 	if (NEW_ITERATOR_PROTOTYPE) IteratorPrototype$2 = {};
 
-	// 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
+	// `%IteratorPrototype%[@@iterator]()` method
+	// https://tc39.es/ecma262/#sec-%iteratorprototype%-@@iterator
 	if ((NEW_ITERATOR_PROTOTYPE) && !has$1(IteratorPrototype$2, ITERATOR$4)) {
 	  createNonEnumerableProperty(IteratorPrototype$2, ITERATOR$4, returnThis$2);
 	}
@@ -1085,7 +1087,7 @@ var $febAlive = (function () {
 	    }
 	  }
 
-	  // fix Array#{values, @@iterator}.name in V8 / FF
+	  // fix Array.prototype.{ values, @@iterator }.name in V8 / FF
 	  if (DEFAULT == VALUES && nativeIterator && nativeIterator.name !== VALUES) {
 	    INCORRECT_VALUES_NAME = true;
 	    defaultIterator = function values() { return nativeIterator.call(this); };
@@ -1786,9 +1788,20 @@ var $febAlive = (function () {
 	// https://github.com/tc39/proposal-using-statement
 	defineWellKnownSymbol('dispose');
 
+	// `Symbol.matcher` well-known symbol
+	// https://github.com/tc39/proposal-pattern-matching
+	defineWellKnownSymbol('matcher');
+
+	// `Symbol.metadata` well-known symbol
+	// https://github.com/tc39/proposal-decorators
+	defineWellKnownSymbol('metadata');
+
 	// `Symbol.observable` well-known symbol
 	// https://github.com/tc39/proposal-observable
 	defineWellKnownSymbol('observable');
+
+	// TODO: remove from `core-js@4`
+
 
 	// `Symbol.patternMatch` well-known symbol
 	// https://github.com/tc39/proposal-pattern-matching
@@ -1798,6 +1811,8 @@ var $febAlive = (function () {
 
 
 	defineWellKnownSymbol('replaceAll');
+
+	// TODO: Remove from `core-js@4`
 
 	// TODO: Remove from `core-js@4`
 
@@ -1911,7 +1926,7 @@ var $febAlive = (function () {
 	var getIteratorMethod = getIteratorMethod_1;
 
 	function _iterableToArrayLimit(arr, i) {
-	  var _i = arr && (typeof symbol !== "undefined" && getIteratorMethod(arr) || arr["@@iterator"]);
+	  var _i = arr == null ? null : typeof symbol !== "undefined" && getIteratorMethod(arr) || arr["@@iterator"];
 
 	  if (_i == null) return;
 	  var _arr = [];
@@ -1955,7 +1970,6 @@ var $febAlive = (function () {
 	var callWithSafeIterationClosing = function (iterator, fn, value, ENTRIES) {
 	  try {
 	    return ENTRIES ? fn(anObject(value)[0], value[1]) : fn(value);
-	  // 7.4.6 IteratorClose(iterator, completion)
 	  } catch (error) {
 	    iteratorClose(iterator);
 	    throw error;
@@ -2459,6 +2473,11 @@ var $febAlive = (function () {
 	        }
 	      }
 	    },
+	    data: function data() {
+	      return {
+	        cache: {}
+	      };
+	    },
 	    created: function created() {
 	      this.cache = Object.create(null);
 	      this.keys = [];
@@ -2501,10 +2520,15 @@ var $febAlive = (function () {
 	        var depth = 0;
 	        var cacheVnode = null;
 	        vnode && (vnode.data.febAlive = true);
+	        var inactive = false;
 
 	        while (parent && parent._routerRoot !== parent) {
 	          if (parent.$vnode && parent.$vnode.data.febAlive) {
 	            depth++;
+	          }
+
+	          if (parent._directInactive && parent._inactive) {
+	            inactive = true;
 	          }
 
 	          parent = parent.$parent;
@@ -2512,7 +2536,12 @@ var $febAlive = (function () {
 
 
 	        this.depth = depth;
-	        cache[depth] = cache$1; // 底层路由才进行cache判断
+	        cache[depth] = cache$1;
+
+	        if (inactive) {
+	          return null;
+	        } // 底层路由才进行cache判断
+
 
 	        if (disableCache && to.matched.length === depth + 1) {
 	          return vnode;
@@ -2578,7 +2607,7 @@ var $febAlive = (function () {
 	    destroyed: function destroyed() {
 	      for (var key in this.cache) {
 	        var vnode = this.cache[key];
-	        vnode && vnode.componentInstance.$destroy();
+	        vnode && vnode.componentInstance && vnode.componentInstance.$destroy();
 	        delete cache[this.depth][key];
 	      }
 
