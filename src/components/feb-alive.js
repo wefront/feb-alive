@@ -30,6 +30,12 @@ export default (keyName, maxPage) => {
         }
       },
     },
+    data() {
+      return {
+        cache:  {}
+      }
+    },
+
     created() {
       this.cache = Object.create(null);
       this.keys = [];
@@ -69,16 +75,27 @@ export default (keyName, maxPage) => {
         let depth = 0;
         let cacheVnode = null;
         vnode && (vnode.data.febAlive = true);
+
+        let inactive = false
         while (parent && parent._routerRoot !== parent) {
           if (parent.$vnode && parent.$vnode.data.febAlive) {
             depth++;
           }
+
+          if (parent._directInactive && parent._inactive) {
+            inactive = true
+          }
+          
           parent = parent.$parent;
         }
 
         // 记录缓存及其所在层级
         this.depth = depth;
         febCache[depth] = cache;
+
+        if (inactive) {
+          return null
+        }
 
         // 底层路由才进行cache判断
         if (disableCache && to.matched.length === depth + 1) {
@@ -95,7 +112,11 @@ export default (keyName, maxPage) => {
 
         vnode.key = `__febAlive-${key}-${vnode.tag}`;
 
-        if (from.matched[depth] === to.matched[depth] && depth !== to.matched.length - 1 && (to.matched.length <= from.matched.length)) {
+        if (
+          from.matched[depth] === to.matched[depth] &&
+          depth !== to.matched.length - 1 &&
+          to.matched.length <= from.matched.length
+        ) {
           /**
            * 1.嵌套路由跳转中的父级路由
            * 2./home/a --> /home/b
@@ -142,7 +163,7 @@ export default (keyName, maxPage) => {
     destroyed() {
       for (const key in this.cache) {
         const vnode = this.cache[key];
-        vnode && vnode.componentInstance.$destroy();
+        vnode && vnode.componentInstance && vnode.componentInstance.$destroy();
         delete febCache[this.depth][key];
       }
       this.keys = [];
