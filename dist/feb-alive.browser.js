@@ -1308,23 +1308,13 @@ var $febAlive = (function () {
 	 * 记录所有浏览操作历史栈
 	 * record history stack
 	 */
-	var inBrowser$2 = typeof window !== 'undefined';
 	var routes = [];
-
-	if (inBrowser$2) {
-	  window.debug_routes = routes;
-	}
 
 	/**
 	 * 记录各层级页面缓存
 	 * record page cache
 	 */
-	var inBrowser$1 = typeof window !== 'undefined';
 	var cache = Object.create(null);
-
-	if (inBrowser$1) {
-	  window.debug_cache = cache;
-	}
 
 	var hiddenKeys = enumBugKeys.concat('length', 'prototype');
 
@@ -2769,7 +2759,6 @@ var $febAlive = (function () {
 	      return;
 	    }
 
-	    window.debug_metaMap = metaMap;
 	    var routes$1 = router.options.routes;
 	    /**
 	     * 记录路由初始meta
