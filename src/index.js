@@ -37,8 +37,6 @@ const FebAlivePlugin = {
       return;
     }
 
-    window.debug_metaMap = metaMap;
-
     const routes = router.options.routes;
 
     /**
