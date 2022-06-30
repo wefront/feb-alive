@@ -13,7 +13,10 @@
     "build:example": "cross-env NODE_ENV=production webpack --progress --hide-modules --config ./webpack.example.config.js",
     "example:deploy": "gh-pages -d demo",
     "test": "mocha --require @babel/register 'test/**/*.js'",
-    "cover": "nyc --reporter=html mocha --require @babel/register 'test/**/*.js'"
+    "cover": "nyc --reporter=html mocha --require @babel/register 'test/**/*.js'",
+    "log": "conventional-changelog",
+    "log:update": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "log:init": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
   "browserslist": [
     "> 1%",
@@ -29,6 +32,8 @@
     "@rollup/plugin-commonjs": "^18.0.0",
     "@rollup/plugin-node-resolve": "^11.2.1",
     "babel-loader": "^8.2.2",
+    "conventional-changelog": "^3.1.25",
+    "conventional-changelog-cli": "^2.2.2",
     "cross-env": "^5.2.1",
     "css-loader": "^0.28.7",
     "file-loader": "^1.1.4",
