@@ -2,6 +2,8 @@
   <div class="page-parent">
     <h3>我是父亲组件</h3>
     <router-link :to="`/tree-ancestor/tree-parent?t=${Date.now()}`">父亲组件同级跳转</router-link>
+
+    <router-link to="/tree-ancestor/tree-parent/tree-son">跳转孙路由</router-link>
     <h4>计数：{{ count }}</h4>
     <div>
       <button class="action" @click="count += 1">增加</button>

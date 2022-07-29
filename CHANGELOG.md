@@ -1,3 +1,12 @@
+# [2.1.0](https://github.com/hangaoke1/feb-alive/compare/v2.0.3...v2.1.0) (2022-07-29)
+
+
+### Bug Fixes
+
+* 覆盖/a/b跳转/a/b/c场景下复用问题 ([c6ebc65](https://github.com/hangaoke1/feb-alive/commit/c6ebc65a8aa71733631587cbc87b4e7828908ee1))
+
+
+
 ## [2.0.3](https://github.com/hangaoke1/feb-alive/compare/2.0.0...v2.0.3) (2022-06-30)
 
 

@@ -387,8 +387,21 @@ var FebAlive = (function (keyName, maxPage) {
         }
 
         vnode.key = _concatInstanceProperty(_context = "__febAlive-".concat(key, "-")).call(_context, vnode.tag);
+        /**
+         * 场景覆盖
+         * /a/b/c => /a/b/d
+         * /a/b/c => /a/b
+         */
 
-        if (from.matched[depth] === to.matched[depth] && depth !== to.matched.length - 1 && to.matched.length <= from.matched.length) {
+        var conditionA = from.matched[depth] === to.matched[depth] && depth !== to.matched.length - 1 && to.matched.length <= from.matched.length;
+        /**
+         * 场景覆盖
+         * /a/b => /a/b/c
+         */
+
+        var conditionB = from.matched[depth] === to.matched[depth] && depth !== to.matched.length - 1 && to.matched.length > from.matched.length;
+
+        if (conditionA || conditionB) {
           /**
            * 1.嵌套路由跳转中的父级路由
            * 2./home/a --> /home/b
