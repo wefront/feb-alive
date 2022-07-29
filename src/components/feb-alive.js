@@ -32,8 +32,8 @@ export default (keyName, maxPage) => {
     },
     data() {
       return {
-        cache:  {}
-      }
+        cache: {},
+      };
     },
 
     created() {
@@ -76,16 +76,16 @@ export default (keyName, maxPage) => {
         let cacheVnode = null;
         vnode && (vnode.data.febAlive = true);
 
-        let inactive = false
+        let inactive = false;
         while (parent && parent._routerRoot !== parent) {
           if (parent.$vnode && parent.$vnode.data.febAlive) {
             depth++;
           }
 
           if (parent._directInactive && parent._inactive) {
-            inactive = true
+            inactive = true;
           }
-          
+
           parent = parent.$parent;
         }
 
@@ -94,7 +94,7 @@ export default (keyName, maxPage) => {
         febCache[depth] = cache;
 
         if (inactive) {
-          return null
+          return null;
         }
 
         // 底层路由才进行cache判断
@@ -112,11 +112,26 @@ export default (keyName, maxPage) => {
 
         vnode.key = `__febAlive-${key}-${vnode.tag}`;
 
-        if (
+        /**
+         * 场景覆盖
+         * /a/b/c => /a/b/d
+         * /a/b/c => /a/b
+         */
+        const conditionA =
           from.matched[depth] === to.matched[depth] &&
           depth !== to.matched.length - 1 &&
-          to.matched.length <= from.matched.length
-        ) {
+          to.matched.length <= from.matched.length;
+
+        /**
+         * 场景覆盖
+         * /a/b => /a/b/c
+         */
+        const conditionB =
+          from.matched[depth] === to.matched[depth] &&
+          depth !== to.matched.length - 1 &&
+          to.matched.length > from.matched.length;
+
+        if (conditionA || conditionB) {
           /**
            * 1.嵌套路由跳转中的父级路由
            * 2./home/a --> /home/b
